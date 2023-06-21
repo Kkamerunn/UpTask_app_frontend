@@ -3,11 +3,13 @@ import { useNavigate, Link } from "react-router-dom"
 import axiosClient from "../config/axiosClient"
 import Alert from "../components/Alert"
 import useAuth from "../hooks/useAuth"
+import SpinnerSquare from "../components/SpinnerSquare"
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState({})
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
 
@@ -15,6 +17,7 @@ const Login = () => {
 
     const handleSubmit = async e => {
         e.preventDefault()
+        setLoading(true)
 
         if ([email, password].includes('')) {
             setAlert({
@@ -30,14 +33,18 @@ const Login = () => {
             setAlert({})
 
             localStorage.setItem('token', data.token)
-            setAuth(data)
-
-            navigate("/projects")
+            setAuth(data)          
         } catch (error) {
+            setLoading(true)
             setAlert({
                 msg: error.response.data.msg,
                 error: true
             })
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+                navigate("/projects")
+            }, 2500)
         }
     }
 
@@ -50,6 +57,7 @@ const Login = () => {
                 <span className="text-slate-700">projects</span>
             </h1>
             {msg && <Alert alert={alert} />}
+            {loading && <SpinnerSquare />}
             <form 
                 className="my-10 bg-white shadow rounded-lg px-6 py-3"
                 onSubmit={handleSubmit}    
@@ -84,7 +92,7 @@ const Login = () => {
                 </div>
                 <input 
                     type="submit"
-                    value="Log In"
+                    value='log in'
                     className="bg-sky-700 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer
                     hover:bg-sky-800 transition-colors mb-4"
                 />
