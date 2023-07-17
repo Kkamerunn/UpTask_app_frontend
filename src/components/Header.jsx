@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom"
-import useAuth from "../hooks/useAuth"
 import useProject from "../hooks/useProject"
 import Search from "./Search"
+import { useDispatch } from "react-redux"
+import { signOutUser } from "../actions/authActions"
 
 const Header = () => {
-    const { handleSetAuth } = useAuth()
     const { handleSearcher, handleSignOut } = useProject()
 
+    const dispatch = useDispatch()
+
+    const handleSignOutUser = () => dispatch(signOutUser())
+
     const signOut = () => {
-        handleSetAuth()
-        handleSignOut()
-        localStorage.removeItem('token');
+        handleSignOutUser()
     }
 
     return (

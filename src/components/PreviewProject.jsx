@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
-import useAuth from "../hooks/useAuth"
+import { useSelector } from "react-redux"
 
 const PreviewProject = ({project}) => {
-    const { auth } = useAuth()
+    const auth = useSelector(state => state.authentication.auth)
     const { name, _id, customer, creator } = project
 
     return (

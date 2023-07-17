@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
-import useAuth from "../hooks/useAuth"
+import { useSelector } from "react-redux"
 
 const Sidebar = () => {
-  const { auth } = useAuth()
+  const auth = useSelector(state => state.authentication.auth)
 
   return (
     <aside className="md:w-1/3 lg:w-1/5 xl:w-1/6 px-5 py-10">

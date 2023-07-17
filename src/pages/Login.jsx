@@ -1,23 +1,26 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import axiosClient from "../config/axiosClient"
 import Alert from "../components/Alert"
-import useAuth from "../hooks/useAuth"
 import SpinnerSquare from "../components/SpinnerSquare"
+import { useDispatch, useSelector } from "react-redux"
+import { authenticateUser } from "../actions/authActions"
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState({})
-    const [loading, setLoading] = useState(false)
+
+    const dispatch = useDispatch()
+
+    const addUser = user => dispatch(authenticateUser(user))
+
+    const loading = useSelector(state => state.authentication.loading)
+    const error = useSelector(state => state.authentication.error)
 
     const navigate = useNavigate()
 
-    const { setAuth } = useAuth()
-
-    const handleSubmit = async e => {
+    const handleSubmitRedux = e => {
         e.preventDefault()
-        setLoading(true)
 
         if ([email, password].includes('')) {
             setAlert({
@@ -27,25 +30,9 @@ const Login = () => {
             return
         }
 
-        try {
-            const { data } = await axiosClient.post("/users/login", { email, password })
+        addUser({email, password})
 
-            setAlert({})
-
-            localStorage.setItem('token', data.token)
-            setAuth(data)          
-        } catch (error) {
-            setLoading(true)
-            setAlert({
-                msg: error.response.data.msg,
-                error: true
-            })
-        } finally {
-            setTimeout(() => {
-                setLoading(false)
-                navigate("/projects")
-            }, 2500)
-        }
+        navigate("/projects")
     }
 
     const { msg } = alert
@@ -60,7 +47,7 @@ const Login = () => {
             {loading && <SpinnerSquare />}
             <form 
                 className="my-10 bg-white shadow rounded-lg px-6 py-3"
-                onSubmit={handleSubmit}    
+                onSubmit={handleSubmitRedux}    
             >
                 <div className="my-4">
                     <label

@@ -11,14 +11,15 @@ import NewProject from './pages/NewProject'
 import Project from './pages/Project'
 import EditProject from './pages/EditProject'
 import NewCollaborator from './pages/NewCollaborator'
-import { AuthProvider } from './context/AuthProvider'
 import { ProjectsProvider } from './context/ProjectsProvider'
 import './App.css'
+import { Provider } from "react-redux"
+import store from './store'
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
+      <Provider store={store}>
         <ProjectsProvider>
           <Routes>
             <Route path="/" element={<AuthLayout />}>
@@ -37,7 +38,7 @@ function App() {
             </Route>
           </Routes>
         </ProjectsProvider>
-      </AuthProvider>
+      </Provider>
     </BrowserRouter>
   )
 }

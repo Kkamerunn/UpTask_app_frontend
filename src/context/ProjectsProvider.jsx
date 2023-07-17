@@ -1,8 +1,8 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext } from "react"
 import { useNavigate } from "react-router-dom"
-import axiosClient from "../config/axiosClient";
-import io from "socket.io-client";
-import useAuth from "../hooks/useAuth";
+import axiosClient from "../config/axiosClient"
+import io from "socket.io-client"
+import { useSelector } from "react-redux"
 
 let socket;
 
@@ -22,7 +22,7 @@ const ProjectsProvider = ({children}) => {
 
     const navigate = useNavigate()
 
-    const { auth } = useAuth()
+    const auth = useSelector(state => state.authentication.auth)
 
     const showAlert = alert => {
         setAlert(alert)

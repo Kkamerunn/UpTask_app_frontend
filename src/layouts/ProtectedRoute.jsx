@@ -1,10 +1,11 @@
 import { Outlet, Navigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import { useSelector } from "react-redux";
 
 const ProtectedRoute = () => {
-    const { auth, loading } = useAuth()
+    const loading = useSelector(state => state.authentication.loading)
+    const auth = useSelector(state => state.authentication.auth)
 
     if (loading) return 'loading...'
 
