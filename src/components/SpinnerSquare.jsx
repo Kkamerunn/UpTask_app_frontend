@@ -1,9 +1,7 @@
-import '../assets/css/spinner-square.css'
+import "../assets/css/spinner-square.css";
 
 const SpinnerSquare = () => {
-  return (
-    <div class="spinner"></div>
-  )
-}
+  return <div className="spinner"></div>;
+};
 
-export default SpinnerSquare
+export default SpinnerSquare;
