@@ -34,6 +34,7 @@ const TaskModalForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(deliveryDate);
 
     if ([name, description, priority].includes("")) {
       showAlert({

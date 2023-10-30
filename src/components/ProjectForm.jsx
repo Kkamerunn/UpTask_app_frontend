@@ -34,7 +34,6 @@ const ProjectForm = () => {
       });
       return;
     }
-
     await submitProject({
       id,
       name,
