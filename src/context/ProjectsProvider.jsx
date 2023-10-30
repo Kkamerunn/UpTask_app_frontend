@@ -24,6 +24,14 @@ const ProjectsProvider = ({ children }) => {
 
   const { auth } = useAuth();
 
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   const showAlert = (alert) => {
     setAlert(alert);
 
@@ -35,16 +43,7 @@ const ProjectsProvider = ({ children }) => {
   useEffect(() => {
     const getProjects = async () => {
       try {
-        const token = localStorage.getItem("token");
-
         if (!token) return;
-
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
 
         const { data } = await axiosClient("/projects", config);
         await setProjects(data);
@@ -68,16 +67,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const createProject = async (project) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.post("/projects", project, config);
@@ -96,16 +86,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const updateProject = async (project) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.put(
@@ -137,16 +118,7 @@ const ProjectsProvider = ({ children }) => {
 
   const getProject = async (id, load = false) => {
     !load ? setLoading(true) : null;
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient(`/projects/${id}`, config);
@@ -169,16 +141,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const deleteProject = async (id) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.delete(`/projects/${id}`, config);
@@ -216,16 +179,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const createTask = async (task) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.post("/tasks", task, config);
@@ -241,16 +195,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const editTask = async (task) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.put(`/tasks/${task.id}`, task, config);
@@ -276,16 +221,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const deleteTask = async () => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.delete(`/tasks/${task._id}`, config);
@@ -313,16 +249,7 @@ const ProjectsProvider = ({ children }) => {
 
   const submitCollaborator = async (email) => {
     setLoading(true);
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.post(
@@ -344,16 +271,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const addCollaborator = async (email) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.post(
@@ -385,16 +303,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const deleteCollaborator = async () => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.post(
@@ -415,8 +324,8 @@ const ProjectsProvider = ({ children }) => {
         msg: data.msg,
         error: false,
       });
+      setDeleteCollaboratorModal(!deleteCollaboratorModal);
       setCollaborator({});
-      setDeleteCollaboratorModal(false);
       setTimeout(() => {
         setAlert({});
       }, 3000);
@@ -426,16 +335,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const handleTaskStateShift = async (id) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     try {
       const { data } = await axiosClient.post(`/tasks/state/${id}`, {}, config);
@@ -463,16 +363,7 @@ const ProjectsProvider = ({ children }) => {
   };
 
   const deleteProjectTask = async (task) => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     const projectUpdated = { ...project };
     projectUpdated.tasks = projectUpdated.tasks.filter(

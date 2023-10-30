@@ -19,6 +19,7 @@ const CollaboratorForm = () => {
     }
 
     submitCollaborator(email);
+    setEmail("");
   };
 
   const { msg } = alert;
